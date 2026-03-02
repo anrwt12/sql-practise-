@@ -1,0 +1,226 @@
+-- =============================================
+--        STEP 1 : CREATE DATABASE
+-- =============================================
+
+CREATE DATABASE da_augg;
+USE da_augg;
+
+-- =============================================
+--        STEP 2 : CREATE TABLE
+-- =============================================
+
+CREATE TABLE student_record (
+    rollno  INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name    VARCHAR(15),
+    class   INT,
+    dob     DATE,
+    gender  VARCHAR(10),
+    city    VARCHAR(30),
+    marks   INT
+);
+
+-- =============================================
+--        STEP 3 : INSERT DATA
+-- =============================================
+
+INSERT INTO student_record (rollno, name, class, dob, gender, city, marks)
+VALUES
+(101, 'Anjali', 2, '2004-12-05', 'F', 'Bern',   95),
+(102, 'Rahul',  3, '2003-02-12', 'M', 'Delhi',  89),
+(103, 'Ankita', 5, '2003-02-12', 'F', 'Goa',    55),
+(104, 'Varun',  7, '2002-03-11', 'M', 'Mumbai', 77);
+
+-- =============================================
+--        STEP 4 : VERIFY
+-- =============================================
+
+SHOW TABLES;
+SELECT * FROM student_record;
+
+-- =============================================
+--        STEP 5 : SELECT QUERIES
+-- =============================================
+
+-- All data
+SELECT * FROM student_record;
+
+-- Specific columns
+SELECT name, marks FROM student_record;
+SELECT class, name FROM student_record;
+SELECT name, city  FROM student_record;
+
+-- =============================================
+--        STEP 6 : LIMIT
+-- =============================================
+
+-- First 1 row
+SELECT * FROM student_record LIMIT 1;
+
+-- First 2 rows
+SELECT * FROM student_record LIMIT 2;
+
+-- First 3 rows
+SELECT * FROM student_record LIMIT 3;
+
+-- =============================================
+--        STEP 7 : OFFSET
+-- =============================================
+
+-- Page 1 (show 2, skip 0)
+SELECT * FROM student_record LIMIT 2 OFFSET 0;
+
+-- Page 2 (show 2, skip 2)
+SELECT * FROM student_record LIMIT 2 OFFSET 2;
+
+-- Skip 1 row, show 2
+SELECT * FROM student_record LIMIT 2 OFFSET 1;
+
+-- Last 1 student
+SELECT * FROM student_record LIMIT 1 OFFSET 3;
+
+-- =============================================
+--        STEP 8 : ORDER BY
+-- =============================================
+
+-- Marks high to low
+SELECT * FROM student_record
+ORDER BY marks DESC;
+
+-- Marks low to high
+SELECT * FROM student_record
+ORDER BY marks ASC;
+
+-- Name A to Z
+SELECT * FROM student_record
+ORDER BY name ASC;
+
+-- Name Z to A
+SELECT * FROM student_record
+ORDER BY name DESC;
+
+-- =============================================
+--      STEP 9 : ORDER BY + LIMIT
+-- =============================================
+
+-- Top 1 student (Topper)
+SELECT * FROM student_record
+ORDER BY marks DESC
+LIMIT 1;
+
+-- Top 2 students
+SELECT * FROM student_record
+ORDER BY marks DESC
+LIMIT 2;
+
+-- Bottom 1 student (Lowest marks)
+SELECT * FROM student_record
+ORDER BY marks ASC
+LIMIT 1;
+
+-- First name alphabetically
+SELECT * FROM student_record
+ORDER BY name ASC
+LIMIT 1;
+
+-- =============================================
+--    STEP 10 : ORDER BY + LIMIT + OFFSET
+-- =============================================
+
+-- 2nd rank student
+SELECT * FROM student_record
+ORDER BY marks DESC
+LIMIT 1 OFFSET 1;
+
+-- 3rd rank student
+SELECT * FROM student_record
+ORDER BY marks DESC
+LIMIT 1 OFFSET 2;
+
+-- 4th rank student
+SELECT * FROM student_record
+ORDER BY marks DESC
+LIMIT 1 OFFSET 3;
+
+-- Rank 3 and 4
+SELECT * FROM student_record
+ORDER BY marks DESC
+LIMIT 2 OFFSET 2;
+
+-- Skip top 2, show rest
+SELECT * FROM student_record
+ORDER BY marks DESC
+LIMIT 10 OFFSET 2;
+
+-- =============================================
+--        STEP 11 : WHERE
+-- =============================================
+
+-- Girls only
+SELECT * FROM student_record
+WHERE gender = 'F';
+
+-- Boys only
+SELECT * FROM student_record
+WHERE gender = 'M';
+
+-- Marks greater than 70
+SELECT * FROM student_record
+WHERE marks > 70;
+
+-- Marks less than 80
+SELECT * FROM student_record
+WHERE marks < 80;
+
+-- Specific city
+SELECT * FROM student_record
+WHERE city = 'DELHI';
+
+-- AND condition
+SELECT * FROM student_record
+WHERE gender = 'F' AND marks > 80;
+
+-- OR condition
+SELECT * FROM student_record
+WHERE marks > 90 OR city = 'GOA';
+
+-- BETWEEN
+SELECT * FROM student_record
+WHERE marks BETWEEN 70 AND 90;
+
+-- LIKE
+SELECT * FROM student_record
+WHERE name LIKE 'A%';
+
+-- =============================================
+--   STEP 12 : WHERE + ORDER BY + LIMIT + OFFSET
+-- =============================================
+
+-- Top 1 girl by marks
+SELECT * FROM student_record
+WHERE gender = 'F'
+ORDER BY marks DESC
+LIMIT 1 OFFSET 0;
+
+-- 2nd girl by marks
+SELECT * FROM student_record
+WHERE gender = 'F'
+ORDER BY marks DESC
+LIMIT 1 OFFSET 1;
+
+-- Top boy by marks
+SELECT * FROM student_record
+WHERE gender = 'M'
+ORDER BY marks DESC
+LIMIT 1 OFFSET 0;
+
+-- Students marks > 70, page 1
+SELECT * FROM student_record
+WHERE marks > 70
+ORDER BY marks DESC
+LIMIT 2 OFFSET 0;
+
+-- Students marks > 70, page 2
+SELECT * FROM student_record
+WHERE marks > 70
+ORDER BY marks DESC
+LIMIT 2 OFFSET 2;
